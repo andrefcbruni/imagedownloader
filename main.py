@@ -24,7 +24,6 @@ def get_img_links(res):
     imglinks = soup.find_all("img", src=True)
     return imglinks
 
-
 def download_img(img_link, index):
     try:
         extensions = [".jpeg", ".jpg", ".png", ".gif"]
