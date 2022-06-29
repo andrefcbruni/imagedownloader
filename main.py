@@ -4,26 +4,29 @@ import os
 from bs4 import BeautifulSoup
 import time
 
-# path= E:\web scraping\chromedriver_win32\chromedriver.exe
-path = input("Enter Path : ")
+# Asking the user to enter the path to the chromedriver.exe file.
+path = input("Enter Path: ")
 
+# Asking the user to enter the url of the website from which the images are to be downloaded.
 url = input("Enter URL: ")
 
 output = "output"
 
+# Takes a path to the chromedriver and a url and returns the html of the url:
 def get_url(path, url):
     driver = webdriver.Chrome(executable_path=r"{}".format(path))
     driver.get(url)
     print("loading.....")
     res = driver.execute_script("return document.documentElement.outerHTML")
-
     return res
 
+# Takes a response object and returns a list of image links:
 def get_img_links(res):
     soup = BeautifulSoup(res, "lxml")
     imglinks = soup.find_all("img", src=True)
     return imglinks
 
+# Downloads the image from the link and saves it in the output folder:
 def download_img(img_link, index):
     try:
         extensions = [".jpeg", ".jpg", ".png", ".gif"]
@@ -32,11 +35,9 @@ def download_img(img_link, index):
             if img_link.find(exe) > 0:
                 extension = exe
                 break
-
         img_data = rq.get(img_link).content
         with open(output + "\\" + str(index + 1) + extension, "wb+") as f:
             f.write(img_data)
-        
         f.close()
     except Exception:
         pass
@@ -52,4 +53,4 @@ for index, img_link in enumerate(img_links):
     print("Downloading...")
     if img_link:
         download_img(img_link, index)
-print("Download Complete!!")
+print("Download complete!")
