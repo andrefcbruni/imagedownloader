@@ -50,7 +50,7 @@ if not os.path.isdir(output):
 
 for index, img_link in enumerate(img_links):
     img_link = img_link["src"]
-    print("Downloading...")
+    print("Downloading. Please wait a little longer...")
     if img_link:
         download_img(img_link, index)
 print("Download complete!")
